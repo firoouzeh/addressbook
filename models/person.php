@@ -6,21 +6,19 @@ class PersonModel extends Model{
 		return $rows;
 	}
 
-	public function add(){
-		// Sanitize POST array
-		$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+	public function add($postVar){
 
-		if($post['submit']){
+		if($postVar['submit']){
 
-			if($post['firstName'] == ''){
+			if($postVar['firstName'] == ''){
 				Messages::setMsg('First Name is Required', 'error');
 				return;
 			}
 
 			// Insert FirstName & LastName into MySQL DB
 			$this->query('INSERT INTO person_details (first_name, last_name) VALUES (:firstName, :lastName)');
-			$this->bind(':firstName', $post['firstName']);
-			$this->bind(':lastName', $post['lastName']);
+			$this->bind(':firstName', $postVar['firstName']);
+			$this->bind(':lastName', $postVar['lastName']);
 			$this->execute();
 			//Verify
 			if($this->lastInsertId()){
@@ -29,10 +27,10 @@ class PersonModel extends Model{
 			}
 
 			//Filtering the Arrays to remove empty or null values (if any)
-			$emails = array_filter($post['emails']);
-			$numbers = array_filter($post['numbers']);
-			$addresses = array_filter($post['addresses']);
-			$groups = array_filter($post['groups']);
+			$emails = array_filter($postVar['emails']);
+			$numbers = array_filter($postVar['numbers']);
+			$addresses = array_filter($postVar['addresses']);
+			$groups = array_filter($postVar['groups']);
 
 			//Insert Emails in Database Table
 			foreach($emails as $email){
@@ -73,10 +71,8 @@ class PersonModel extends Model{
 		return $rows;
 	}
 
-	public function view(){
-		// Sanitize POST array
-		$get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-		$id = $get['id'];
+	public function view($getVar){
+		$id = $getVar['id'];
 		if($id != ''){
 
 			$personDetails = array();
@@ -150,11 +146,11 @@ class PersonModel extends Model{
 	}
 
 	public function edit(){
-		Messages::setMsg('Functionality Not Implemented', 'info');
+		Messages::setMsg('Functionality Not Implemented Yet', 'info');
 		return;
 	}
-	public function delete(){
-		if($_POST['submit']){
+	public function delete($postVar){
+		if($postVar['submit']){
 
 			$this->query('DELETE FROM person_details WHERE id = :id');
 			$this->bind(':id',$_GET['id']);

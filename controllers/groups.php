@@ -7,12 +7,12 @@ class Groups extends Controller{
 
 	protected function create(){
 		$viewModel = new GroupModel();
-		$this->returnView($viewModel->create(), true);
+		$this->returnView($viewModel->create($this->postVar), true);
 	}
 
 	protected function edit(){
 		$viewModel = new GroupModel();
-		$this->returnView($viewModel->edit(), true);
+		$this->returnView($viewModel->edit($this->getVar,$this->postVar), true);
 	}
 
 	public function getName($id){
@@ -22,11 +22,11 @@ class Groups extends Controller{
 
 	public function view(){
 		$viewModel = new GroupModel();
-		$this->returnView($viewModel->view(), true);
+		$this->returnView($viewModel->view($this->getVar), true);
 	}
 
 	public function delete(){
 		$viewModel = new GroupModel();
-		$this->returnView($viewModel->delete(), true);
+		$this->returnView($viewModel->delete($this->postVar), true);
 	}
 }

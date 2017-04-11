@@ -2,10 +2,15 @@
 abstract class Controller{
 	protected $request;
 	protected $action;
+	protected $postVar;
+	protected $getVar;
 
 	public function __construct($action, $request){
 		$this->action = $action;
 		$this->request = $request;
+		// Sanitize POST & GET array
+		$this->postVar = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+		$this->getVar = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 	}
 
 	public function executeAction(){

@@ -1,12 +1,13 @@
-
-
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">Search Results</h3>
 	</div>
 	<div class="panel-body">
 	<?php 
-		if($viewModel) : ?>
+		if($viewModel && $_POST) : ?>
+			<div class="alert alert-success"><?php echo count($viewModel); ?> Strings matched containing 
+					"<strong><?php echo $_POST['search-term']; ?></strong>" in 
+					<em>First Name</em>, <em>Last Name</em> and <em>Email</em></div>
 			  <!-- Table -->
 			  <table class="table">
 				<tr>
@@ -35,6 +36,9 @@
 		} ?>
 			  </table>
 			</div>
-	<?php  endif;	 ?>
+	<?php else : ?>
+		<?php if($_POST) : ?>
+		<div class="alert alert-danger">No Results Found</div>
+	<?php  endif; endif	 ?>
 	</div>
 </div>

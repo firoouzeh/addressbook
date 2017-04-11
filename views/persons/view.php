@@ -72,27 +72,5 @@
       </div>
       <?php endif; ?>
     </div>
-    <?php //prettyPrint($viewModel); ?>
-    <!-- Table -->
-<!--    <table class="table">
-      <thead>
-        <tr>
-          <th>Attribute</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-<?php 
-        if(!empty($viewModel)):
-         foreach($viewModel as $item =>$value): ?>
-          <tr>
-            <td><?php echo $item; ?></td>
-            <td><?php echo $value; ?></td>
-          </tr>
-<?php
-          endforeach; 
-        endif; ?>
-      </tbody>
-    </table> -->
   </div>
 </div>

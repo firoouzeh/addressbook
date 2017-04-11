@@ -1,14 +1,4 @@
 <div class="panel panel-default">
-<?php //if(!empty($_POST)) prettyPrint($_POST); ?>
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#group-select').multiselect({
-            includeSelectAllOption: true,
-            maxHeight: 400,
-            dropUp: true
-        });
-    });
-</script>
 	<div class="panel-heading">
 		<h3 class="panel-title">Add New Person</h3>
 	</div>

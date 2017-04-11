@@ -28,6 +28,7 @@
             <li><a href="<?php echo ROOT_URL; ?>">Home</a></li>
             <li><a href="<?php echo ROOT_URL; ?>persons">Persons</a></li>
             <li><a href="<?php echo ROOT_URL; ?>groups">Groups</a></li>
+            <li><a href="<?php echo ROOT_URL; ?>search/advance">Advance Search</a></li>
           </ul>
           <form method="post" action="<?php echo ROOT_PATH; ?>search" class="navbar-form pull-right" role="search">
             <div class="input-group add-on">

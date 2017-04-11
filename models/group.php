@@ -6,19 +6,17 @@ class GroupModel extends Model{
 		return $rows;
 	}
 	
-	public function create(){
-		// Sanitize POST array
-		$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+	public function create($postVar){
+		prettyPrint($postVar);
+		if($postVar['submit']){
 
-		if($post['submit']){
-
-			if($post['name'] == ''){
+			if($postVar['name'] == ''){
 				Messages::setMsg('Please give a group name', 'error');
 				return;
 			}
 			// Insert into MySQL
 			$this->query('INSERT INTO group_names (name) VALUES (:name)');
-			$this->bind(':name', $post['name']);
+			$this->bind(':name', $postVar['name']);
 			$this->execute();
 			//Verify
 			if($this->lastInsertId()){
@@ -29,27 +27,25 @@ class GroupModel extends Model{
 		return;
 	}
 
-	public function edit(){
+	public function edit($getVar,$postVar){
 		// Sanitize GET & POST array
-		$post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-		$get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 
-		if(!empty($get['id']) && $post['submit']){
-			if($post['name'] == ''){
+		if(!empty($getVar['id']) && $postVar['submit']){
+			if($postVar['name'] == ''){
 				Messages::setMsg('Please give a group name', 'error');
 				return;
 			}
 
 			// Check if id exists in Table
-			if(!$this->getName($get['id'])){
+			if(!$this->getName($getVar['id'])){
 				Messages::setMsg('Invalid ID !!', 'error');
 				return;		
 			}
 
 			// Update into MySQL
 			$this->query('UPDATE group_names SET name = :name WHERE id = :id');
-			$this->bind(':name', $post['name']);
-			$this->bind(':id', $get['id']);
+			$this->bind(':name', $postVar['name']);
+			$this->bind(':id', $getVar['id']);
 			$res = $this->execute();
 			//Execute & Verify
 			if($res){
@@ -72,10 +68,8 @@ class GroupModel extends Model{
 		}
 	}
 
-	public function view(){
-		// Sanitize POST array
-		$get = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-		$id = $get['id'];
+	public function view($getVar){
+		$id = $getVar['id'];
 		if($id != ''){
 			$this->query('SELECT p.id, concat(p.first_name, " ", p.last_name) AS name FROM person_details AS p 
 							INNER JOIN group_members AS m ON p.id = m.person_id
@@ -92,8 +86,8 @@ class GroupModel extends Model{
 		}
 	}
 
-	public function delete(){
-		if($_POST['submit']){
+	public function delete($postVar){
+		if($postVar['submit']){
 
 			$this->query('DELETE FROM group_names WHERE id = :id');
 			$this->bind(':id',$_GET['id']);
