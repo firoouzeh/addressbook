@@ -14,7 +14,7 @@
 					<input type="text" name="lastName" class="form-control" />
 				</div>
 				<div class="form-group col-xs-2"><br />
-					<input class="btn btn-success" name="submit" type="submit" value="name" />
+					<input class="btn btn-primary" name="submit" type="submit" value="Search Name" />
 				</div>
 			</div>
 		</form>
@@ -25,7 +25,7 @@
 					<input type="text" name="email" class="form-control" />
 				</div>
 				<div class="form-group col-xs-2"><br />
-					<input class="btn btn-success" name="submit" type="submit" value="email" />
+					<input class="btn btn-success" name="submit" type="submit" value="Search Email" />
 				</div>
 			</div>
 		</form>
