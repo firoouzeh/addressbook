@@ -1,0 +1,13 @@
+.button-margin{
+	margin: 10px 10px 10px 10px;
+}
+
+.glyphicon{
+	line-height: inherit;
+	font-size: 12px;
+}
+
+.entry:not(:first-of-type)
+{
+    margin-top: 10px;
+}
