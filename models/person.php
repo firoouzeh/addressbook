@@ -64,7 +64,8 @@ class PersonModel extends Model{
 			}
 			if($pId){
 				//Redirect
-				//header('Location: '.ROOT_URL.'persons');
+				Messages::setMsg('Record Successfully Saved', 'success');
+				header('Location: '.ROOT_URL.'persons');
 			}
 		}
 		$this->query('SELECT id, name FROM group_names');

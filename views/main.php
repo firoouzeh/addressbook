@@ -29,6 +29,14 @@
             <li><a href="<?php echo ROOT_URL; ?>persons">Persons</a></li>
             <li><a href="<?php echo ROOT_URL; ?>groups">Groups</a></li>
           </ul>
+          <form method="post" action="<?php echo ROOT_PATH; ?>search" class="navbar-form pull-right" role="search">
+            <div class="input-group add-on">
+              <input class="form-control" placeholder="Search" name="search-term" id="search-term" type="text">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+              </div>
+            </div>
+          </form>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
