@@ -7,12 +7,12 @@ class Persons extends Controller{
 
 	protected function add(){
 		$viewModel = new PersonModel();
-		$this->returnView($viewModel->add($this->postVar), true);
+		$this->returnView($viewModel->add($this->postVar['firstName'], $this->postVar['lastName'], $this->postVar['emails'], $this->postVar['numbers'], $this->postVar['addresses'], $this->postVar['groups'], $this->postVar['submit']), true);
 	}
 
 	protected function view(){
 		$viewModel = new PersonModel();
-		$this->returnView($viewModel->view($this->getVar), true);
+		$this->returnView($viewModel->view($this->getVar['id']), true);
 	}
 
 	protected function edit(){
@@ -22,7 +22,7 @@ class Persons extends Controller{
 
 	protected function delete(){
 		$viewModel = new PersonModel();
-		$this->returnView($viewModel->delete($this->postVar), true);
+		$this->returnView($viewModel->delete($this->postVar['submit'], $this->getVar['id']), true);
 	}
 
 }

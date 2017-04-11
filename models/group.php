@@ -6,17 +6,16 @@ class GroupModel extends Model{
 		return $rows;
 	}
 	
-	public function create($postVar){
-		prettyPrint($postVar);
-		if($postVar['submit']){
+	public function create($postSubmit, $postName){
+		if($postSubmit){
 
-			if($postVar['name'] == ''){
+			if($postName == ''){
 				Messages::setMsg('Please give a group name', 'error');
 				return;
 			}
 			// Insert into MySQL
 			$this->query('INSERT INTO group_names (name) VALUES (:name)');
-			$this->bind(':name', $postVar['name']);
+			$this->bind(':name', $postName);
 			$this->execute();
 			//Verify
 			if($this->lastInsertId()){
@@ -27,25 +26,23 @@ class GroupModel extends Model{
 		return;
 	}
 
-	public function edit($getVar,$postVar){
-		// Sanitize GET & POST array
-
-		if(!empty($getVar['id']) && $postVar['submit']){
-			if($postVar['name'] == ''){
+	public function edit($getId,$postName, $postSubmit){
+		if(!empty($getId) && $postSubmit){
+			if($postName == ''){
 				Messages::setMsg('Please give a group name', 'error');
 				return;
 			}
 
 			// Check if id exists in Table
-			if(!$this->getName($getVar['id'])){
+			if(!$this->getName($getId)){
 				Messages::setMsg('Invalid ID !!', 'error');
 				return;		
 			}
 
 			// Update into MySQL
 			$this->query('UPDATE group_names SET name = :name WHERE id = :id');
-			$this->bind(':name', $postVar['name']);
-			$this->bind(':id', $getVar['id']);
+			$this->bind(':name', $postName);
+			$this->bind(':id', $getId);
 			$res = $this->execute();
 			//Execute & Verify
 			if($res){
@@ -68,14 +65,13 @@ class GroupModel extends Model{
 		}
 	}
 
-	public function view($getVar){
-		$id = $getVar['id'];
-		if($id != ''){
+	public function view($getId){
+		if($getId != ''){
 			$this->query('SELECT p.id, concat(p.first_name, " ", p.last_name) AS name FROM person_details AS p 
 							INNER JOIN group_members AS m ON p.id = m.person_id
 							INNER JOIN group_names AS n ON m.group_id = n.id
 			 				WHERE n.id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res = $this->resultSet();
 			if(empty($res)){
 				Messages::setMsg('No Members Found', 'info');
@@ -86,11 +82,10 @@ class GroupModel extends Model{
 		}
 	}
 
-	public function delete($postVar){
-		if($postVar['submit']){
-
+	public function delete($deleteConfirm, $getId){
+		if($deleteConfirm){
 			$this->query('DELETE FROM group_names WHERE id = :id');
-			$this->bind(':id',$_GET['id']);
+			$this->bind(':id',$getId);
 			$this->execute();
 			if($this->error){
 				return;

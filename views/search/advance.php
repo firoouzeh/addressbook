@@ -14,7 +14,7 @@
 					<input type="text" name="lastName" class="form-control" />
 				</div>
 				<div class="form-group col-xs-2"><br />
-					<input class="btn btn-success" name="submitName" type="submit" value="Search" />
+					<input class="btn btn-success" name="submit" type="submit" value="name" />
 				</div>
 			</div>
 		</form>
@@ -25,15 +25,48 @@
 					<input type="text" name="email" class="form-control" />
 				</div>
 				<div class="form-group col-xs-2"><br />
-					<input class="btn btn-success" name="submitEmail" type="submit" value="Search" />
+					<input class="btn btn-success" name="submit" type="submit" value="email" />
 				</div>
 			</div>
 		</form>
 		<div class="form-group col-xs-12">
 			<div class="form-group col-xs-12"><br />
-				<?php if($_POST) : ?>
-					
-				<?php endif; ?>
+				<h3 class="panel-title">Search Results</h3><br />
+
+			<table class="table">
+
+			<?php 
+			if($viewModel) :
+				if(isset($viewModel[0]['email'])) : ?>
+					<tr>
+						<td><h4>Email</h4></td>
+						<td><h4>Action</h4></td>
+					</tr>
+			<?php	foreach($viewModel AS $label => $value) : ?>
+					<tr>
+						<td><?php echo $value['email']; ?></td>
+						<td><a class="btn btn-default" href="<?php echo ROOT_PATH; ?>persons/view/<?php echo $value['person_id']; ?>">View</a></td>
+					</tr>
+			<?php	endforeach; ?>
+			<?	endif;
+				if(isset($viewModel[0]['id'])) : ?>
+					<tr>
+						<td><h4>First Name</h4></td>
+						<td><h4>Last Name</h4></td>
+						<td><h4>Action</h4></td>
+					</tr>
+			<?php	foreach($viewModel AS $label => $value) : ?>
+					<tr>
+						<td><?php echo $value['first_name']; ?></td>
+						<td><?php echo $value['last_name']; ?></td>
+						<td><a class="btn btn-default" href="<?php echo ROOT_PATH; ?>persons/view/<?php echo $value['id']; ?>">View</a></td>
+					</tr>
+			<?php	endforeach; ?>
+		<?php 	endif; ?>
+		<?php else : ?>
+			<div class="alert alert-danger">No Results Found</div>
+	<?php	endif;	 ?>
+			</table>
 			</div>
 		</div>
 	</div>

@@ -6,19 +6,18 @@ class PersonModel extends Model{
 		return $rows;
 	}
 
-	public function add($postVar){
+	public function add($firstName, $lastName, $emailArr, $numberArr, $addressArr, $groupArr, $postSubmit){
+		if($postSubmit){
 
-		if($postVar['submit']){
-
-			if($postVar['firstName'] == ''){
+			if($firstName == ''){
 				Messages::setMsg('First Name is Required', 'error');
 				return;
 			}
 
 			// Insert FirstName & LastName into MySQL DB
 			$this->query('INSERT INTO person_details (first_name, last_name) VALUES (:firstName, :lastName)');
-			$this->bind(':firstName', $postVar['firstName']);
-			$this->bind(':lastName', $postVar['lastName']);
+			$this->bind(':firstName', $firstName);
+			$this->bind(':lastName', $lastName);
 			$this->execute();
 			//Verify
 			if($this->lastInsertId()){
@@ -27,10 +26,10 @@ class PersonModel extends Model{
 			}
 
 			//Filtering the Arrays to remove empty or null values (if any)
-			$emails = array_filter($postVar['emails']);
-			$numbers = array_filter($postVar['numbers']);
-			$addresses = array_filter($postVar['addresses']);
-			$groups = array_filter($postVar['groups']);
+			$emails = array_filter($emailArr);
+			$numbers = array_filter($numberArr);
+			$addresses = array_filter($addressArr);
+			$groups = array_filter($groupArr);
 
 			//Insert Emails in Database Table
 			foreach($emails as $email){
@@ -71,14 +70,13 @@ class PersonModel extends Model{
 		return $rows;
 	}
 
-	public function view($getVar){
-		$id = $getVar['id'];
-		if($id != ''){
+	public function view($getId){
+		if($getId != ''){
 
 			$personDetails = array();
 
 			$this->query('SELECT first_name firstName, last_name lastName FROM person_details WHERE id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res1 = $this->single();
 
 			if(!empty($res1)){
@@ -88,7 +86,7 @@ class PersonModel extends Model{
 			}
 
 			$this->query('SELECT email FROM email_addresses WHERE person_id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res2 = $this->resultSet();
 			if(!empty($res2)){
 				$emails = array();
@@ -100,7 +98,7 @@ class PersonModel extends Model{
 			
 
 			$this->query('SELECT number FROM contact_numbers WHERE person_id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res3 = $this->resultSet();
 			if(!empty($res3)){
 				$numbers = array();
@@ -112,7 +110,7 @@ class PersonModel extends Model{
 			
 
 			$this->query('SELECT address FROM street_addresses WHERE person_id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res4 = $this->resultSet();
 			if(!empty($res4)){
 				$addresses = array();
@@ -126,7 +124,7 @@ class PersonModel extends Model{
 							INNER JOIN group_members AS m ON n.id = m.group_id
 							INNER JOIN person_details AS p ON m.person_id = p.id
 			 				WHERE person_id= :id');
-			$this->bind(':id', $id);
+			$this->bind(':id', $getId);
 			$res5 = $this->resultSet();
 			if(!empty($res5)){
 				$groups = array();
@@ -149,11 +147,11 @@ class PersonModel extends Model{
 		Messages::setMsg('Functionality Not Implemented Yet', 'info');
 		return;
 	}
-	public function delete($postVar){
-		if($postVar['submit']){
+	public function delete($confirmSubmit, $getId){
+		if($confirmSubmit){
 
 			$this->query('DELETE FROM person_details WHERE id = :id');
-			$this->bind(':id',$_GET['id']);
+			$this->bind(':id',$getId);
 			$this->execute();
 			if($this->error){
 				return;
