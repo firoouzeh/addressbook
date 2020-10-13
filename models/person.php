@@ -6,7 +6,7 @@ class PersonModel extends Model{
 		return $rows;
 	}
 
-	public function add($firstName, $lastName, $emailArr, $numberArr, $addressArr, $groupArr, $postSubmit){
+	public function add($firstName, $lastName, array $emailArr, array $numberArr, array $addressArr, array $groupArr, $postSubmit){
 		if($postSubmit){
 
 			if($firstName == ''){
@@ -32,33 +32,44 @@ class PersonModel extends Model{
 			$groups = array_filter($groupArr);
 
 			//Insert Emails in Database Table
-			foreach($emails as $email){
-				$this->query('INSERT INTO email_addresses (person_id, email) VALUES (:pId, :email)');
-				$this->bind(':pId', $pId);
-				$this->bind(':email', $email);
-				$this->execute();
-			}
+            if(!empty($emails)){
+                foreach($emails as $email){
+                    $this->query('INSERT INTO email_addresses (person_id, email) VALUES (:pId, :email)');
+                    $this->bind(':pId', $pId);
+                    $this->bind(':email', $email);
+                    $this->execute();
+                }
+            }
+
 			//Insert Numbers in Database Table
-			foreach($numbers as $num){
-				$this->query('INSERT INTO contact_numbers (person_id, number) VALUES (:pId, :num)');
-				$this->bind(':pId', $pId);
-				$this->bind(':num', $num);
-				$this->execute();
-			}
+            if(!empty($numbers)){
+                foreach($numbers as $num){
+                    $this->query('INSERT INTO contact_numbers (person_id, number) VALUES (:pId, :num)');
+                    $this->bind(':pId', $pId);
+                    $this->bind(':num', $num);
+                    $this->execute();
+                }
+            }
 			//Insert Addresses in Database Table
-			foreach($addresses as $address){
-				$this->query('INSERT INTO street_addresses (person_id, address) VALUES (:pId, :address)');
-				$this->bind(':pId', $pId);
-				$this->bind(':address', $address);
-				$this->execute();
-			}
+            if(!empty($addresses)){
+                foreach($addresses as $address){
+                    $this->query('INSERT INTO street_addresses (person_id, address) VALUES (:pId, :address)');
+                    $this->bind(':pId', $pId);
+                    $this->bind(':address', $address);
+                    $this->execute();
+                }
+            }
+
 			//Insert Groups in Database Table
-			foreach($groups as $gId){
-				$this->query('INSERT INTO group_members (person_id, group_id) VALUES (:pId, :gId)');
-				$this->bind(':pId', $pId);
-				$this->bind(':gId', $gId);
-				$this->execute();
-			}
+            if(!empty($groups)){
+                foreach($groups as $gId){
+                    $this->query('INSERT INTO group_members (person_id, group_id) VALUES (:pId, :gId)');
+                    $this->bind(':pId', $pId);
+                    $this->bind(':gId', $gId);
+                    $this->execute();
+                }
+            }
+
 			if($pId){
 				//Redirect
 				Messages::setMsg('Record Successfully Saved', 'success');
