@@ -50,7 +50,7 @@ class SearchModel extends Model{
 		if($firstName != '' || $lastName != ''){
 			if($lastName == ''){
 				$this->query('SELECT id, first_name, last_name FROM person_details WHERE first_name LIKE "'.$firstName.'%"');
-			} elseif($lastName == ''){
+			} elseif($firstName == ''){
 				$this->query('SELECT id, first_name, last_name FROM person_details WHERE last_name LIKE "'.$lastName.'%"');
 			} else {
 				$this->query('SELECT id, first_name, last_name FROM person_details WHERE first_name LIKE "'.$firstName.'%" AND last_name LIKE "'.$lastName.'%"');
